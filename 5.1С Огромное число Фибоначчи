@@ -1,33 +1,56 @@
 import java.util.Scanner;
 
-public class FibonacciModulo {
+public class Main {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        long n = scanner.nextLong(); // Читаем n
-        int m = scanner.nextInt();   // Читаем m
+        long n = scanner.nextLong();
+        int m = scanner.nextInt();
+        scanner.close();
 
-        System.out.println(fibonacciMod(n, m)); // Выводим результат
+        System.out.println(fibonacciModulo(n, m));
     }
 
-    private static int fibonacciMod(long n, int m) {
-        if (n == 0) {
-            return 0;
-        }
-        if (n == 1) {
-            return 1;
-        }
+    private static long fibonacciModulo(long n, int m) {
+        
+        int pisanoPeriod = pisanoPeriod(m);
 
-        // Последовательность остатков
-        int prev = 0;
-        int curr = 1;
-        int next;
+        
+        long nModPeriod = n % pisanoPeriod;
+
+        
+        long fibNModM = fibonacci(nModPeriod, m);
+
+        return fibNModM;
+    }
+
+    private static int pisanoPeriod(int m) {
+        int a = 0, b = 1;
+        int period = 0;
+
+        do {
+            int temp = (a + b) % m;
+            a = b;
+            b = temp;
+            period++;
+        } while (!(a == 0 && b == 1));
+
+        return period;
+    }
+
+    private static long fibonacci(long n, int m) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        long previous = 0;
+        long current = 1;
 
         for (long i = 2; i <= n; i++) {
-            next = (prev + curr) % m;
-            prev = curr;
-            curr = next;
+            long next = (previous + current) % m;
+            previous = current;
+            current = next;
         }
 
-        return curr;
+        return current;
     }
 }
