@@ -1,0 +1,43 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        long n = scanner.nextLong();
+        scanner.close();
+
+        System.out.println(fibonacciSumLastDigit(n));
+    }
+
+    private static int fibonacciSumLastDigit(long n) {
+        
+        int pisanoPeriod = 60;
+
+       
+        long nModPeriod = n % pisanoPeriod;
+
+       
+        int sumLastDigit = fibonacciSum(nModPeriod);
+
+        return sumLastDigit;
+    }
+
+    private static int fibonacciSum(long n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        int previous = 0;
+        int current = 1;
+        int sum = 1;
+
+        for (long i = 2; i <= n; i++) {
+            int next = (previous + current) % 10;
+            previous = current;
+            current = next;
+            sum = (sum + current) % 10;
+        }
+
+        return sum;
+    }
+}
